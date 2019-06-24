@@ -82,7 +82,7 @@ class EmailVerifier::Checker
         end
         return false
       else
-        raise EmailVerifier::FailureException.new(e.message)
+        raise EmailVerifier::FailureException.new(e.message, e.code)
       end
     end
   end
@@ -95,7 +95,7 @@ class EmailVerifier::Checker
     if smtp_return.status.to_i == 250
       return true
     else
-      raise EmailVerifier::FailureException.new "Mail server responded with #{smtp_return.status} when we were expecting 250"
+      raise EmailVerifier::FailureException.new("Mail server responded with #{smtp_return.status} when we were expecting 250", smtp_return.status.to_i)
     end
   end
 end
